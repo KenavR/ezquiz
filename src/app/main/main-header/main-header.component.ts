@@ -6,10 +6,10 @@ import { User } from '@ezquiz/common';
   template: `
     <header>
       <div class="username">
-        👿<span>{{ user ? user.username : '----' }}</span>
+        👿<span>{{ !loading ? user.username : '----' }}</span>
       </div>
       <div>
-        💰<span>{{ user ? user.credit : '----' }}</span>
+        💰<span>{{ !loading ? user.credit : '----' }}</span>
       </div>
     </header>
   `,
