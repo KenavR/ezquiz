@@ -19,7 +19,10 @@
       "dom"
     ],
     "paths": {
-      "@ezquiz/*": ["src/app/*"]
+      "@ezquiz/models": ["src/app/common/models"],
+      "@ezquiz/services": ["src/app/common/services"],
+      "@ezquiz/components": ["src/app/common/components"],
+      "@ezquiz/*": ["src/app/*"],
     }
   }
 }
