@@ -6,9 +6,20 @@ import { tap } from 'rxjs/operators';
 @Component({
   selector: 'ezq-quizzes-container',
   template: `
-    <ezq-quizzes [quizzes]="quizzes$ | async" [loading]="loading"></ezq-quizzes>
+    <ezq-layout>
+      <ezq-quizzes
+        [quizzes]="quizzes$ | async"
+        [loading]="loading"
+      ></ezq-quizzes>
+    </ezq-layout>
   `,
-  styles: []
+  styles: [
+    `
+      :host {
+        height: inherit;
+      }
+    `
+  ]
 })
 export class QuizzesContainer implements OnInit {
   quizzes$: Observable<CategorizedQuizzes>;
