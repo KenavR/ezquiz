@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { UserService, QuizService } from '@ezquiz/services';
+import { UserService, QuizService, InitializationService } from '@ezquiz/services';
 import {
   CardComponent,
   SidescrollerComponent,
@@ -11,7 +11,7 @@ import {
 @NgModule({
   declarations: [CardComponent, SidescrollerComponent, PageComponent],
   imports: [CommonModule],
-  providers: [UserService, QuizService],
+  providers: [InitializationService, UserService, QuizService],
   exports: [CardComponent, SidescrollerComponent, PageComponent]
 })
 export class EzquizCommonModule {}

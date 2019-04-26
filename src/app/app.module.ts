@@ -11,6 +11,9 @@ import {
 import { QuizzesContainer, QuizzesComponent } from '@ezquiz/quizzes';
 import { LoginModule } from '@ezquiz/login';
 import { EzquizCommonModule } from './common';
+import { environment } from 'src/environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,15 @@ import { EzquizCommonModule } from './common';
     QuizzesContainer,
     QuizzesComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, LoginModule, EzquizCommonModule],
+  imports: [
+    BrowserModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+
+    AppRoutingModule,
+    LoginModule,
+    EzquizCommonModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

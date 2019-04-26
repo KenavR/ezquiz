@@ -1,13 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { InitializationService } from './common';
 
 @Component({
   selector: 'ezq-app',
   template: `
-    <!--The content below is only a placeholder and can be replaced.-->
     <router-outlet></router-outlet>
   `,
   styles: [``]
 })
-export class AppComponent {
-  title = 'ezquiz';
+export class AppComponent implements OnInit {
+  constructor(private initializationService: InitializationService) {}
+
+  ngOnInit(): void {
+    this.initializationService
+      .init()
+      .subscribe(res => console.log('subscribed: ', res));
+  }
 }

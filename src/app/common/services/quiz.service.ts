@@ -23,17 +23,20 @@ function getRandomQuiz(category: Category): Quiz {
       {
         text: `Which disease devastated livestock across the UK during 2001?`,
         answer: 'Foot-and-mouth',
-        options: ['Hand-and-foot', 'Foot-in-mouth', 'Hand-to-mouth']
+        options: ['Hand-and-foot', 'Foot-in-mouth', 'Hand-to-mouth'],
+        quiz: '1'
       },
       {
         text: `Which of these kills its victims by constriction?`,
         answer: 'Anaconda',
-        options: ['Andalucia', 'Andypandy', 'Annerobinson']
+        options: ['Andalucia', 'Andypandy', 'Annerobinson'],
+        quiz: '1'
       },
       {
         text: `Which of these might be used in underwater naval operations?`,
         answer: 'Frogmen',
-        options: ['Newtmen', 'Toadmen', 'Tadpolemen']
+        options: ['Newtmen', 'Toadmen', 'Tadpolemen'],
+        quiz: '1'
       }
     ]
   };
@@ -54,7 +57,9 @@ export class QuizService {
       return categorized.reduce(
         (acc: CategorizedQuizzes, quizzes: Quiz[]) => ({
           ...acc,
-          [quizzes[0].category.name]: quizzes
+          [quizzes[0].category.hasOwnProperty('name')
+            ? (quizzes[0].category as Category).name
+            : '']: quizzes
         }),
         {}
       );

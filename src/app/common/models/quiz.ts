@@ -2,14 +2,14 @@ import { Category } from './category';
 import { Question } from './question';
 
 export interface Quiz {
-  id: string;
+  id?: string;
   title: string;
-  category: Category;
+  category: Category | string;
   reward: number;
   imagePath?: string;
   description?: string;
   timePerQuestion?: number; // in seconds, default 30sec
-  questions: Question[];
+  questions?: Question[];
 }
 
 export interface CategorizedQuizzes {
