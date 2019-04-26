@@ -1,9 +1,28 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QuerySnapshot } from '@angular/fire/firestore';
 import { Observable, from, combineLatest } from 'rxjs';
-import { tap, first, flatMap, filter, map } from 'rxjs/operators';
+import { first, flatMap, filter, map } from 'rxjs/operators';
 
-import { Question, Quiz } from '@ezquiz/models';
+interface RequiredCollections {
+  [name: string]: object;
+}
+
+const requiredCollections: RequiredCollections = {
+  quizzes: {
+    category: 'Gameshows',
+    description: '',
+    imagePath: '',
+    reward: 890,
+    timePerQuestion: 30,
+    title: 'Who wants to be a Millionaire?'
+  },
+  questions: {
+    text: 'Which disease devastated livestock across the UK during 2001?',
+    answer: 'Foot-and-mouth',
+    options: ['Hand-and-foot', 'Foot-in-mouth', 'Hand-to-mouth'],
+    quiz: '1'
+  }
+};
 
 @Injectable()
 export class InitializationService {
@@ -15,12 +34,11 @@ export class InitializationService {
       .get()
       .pipe(
         first(),
-        map((result: QuerySnapshot<Question>) => !result.empty)
+        map((result: QuerySnapshot<T>) => !result.empty)
       );
   }
 
   private createCollection<T>(name: string, data: T): Observable<void> {
-    console.log('create collection');
     return from(
       this.db
         .collection<T>(name)
@@ -29,36 +47,18 @@ export class InitializationService {
     );
   }
 
+  private processCollection([name, data]: [string, object]): Observable<void> {
+    return this.doesCollectionExist<object>(name).pipe(
+      filter(exists => !exists),
+      flatMap(_ => this.createCollection<object>(name, data))
+    );
+  }
+
   init(): Observable<void[]> {
-    function createQuizzes(this: InitializationService): Observable<void> {
-      return this.doesCollectionExist<Quiz>('quizzes').pipe(
-        filter(exists => !exists),
-        flatMap(_ =>
-          this.createCollection<Quiz>('quizzes', {
-            category: 'Gameshows',
-            description: '',
-            imagePath: '',
-            reward: 890,
-            timePerQuestion: 30,
-            title: 'Who wants to be a Millionaire?'
-          })
-        )
-      );
-    }
-    function createQuestions(this: InitializationService): Observable<void> {
-      return this.doesCollectionExist<Question>('questions').pipe(
-        filter(exists => !exists),
-        flatMap(_ =>
-          this.createCollection<Question>('questions', {
-            text:
-              'Which disease devastated livestock across the UK during 2001?',
-            answer: 'Foot-and-mouth',
-            options: ['Hand-and-foot', 'Foot-in-mouth', 'Hand-to-mouth'],
-            quiz: '1'
-          })
-        )
-      );
-    }
-    return combineLatest(createQuizzes.call(this), createQuestions.call(this));
+    const collectionCreator$: Observable<void>[] = Object.entries(
+      requiredCollections
+    ).map(this.processCollection.bind(this));
+
+    return combineLatest(...collectionCreator$);
   }
 }
