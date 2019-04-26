@@ -10,6 +10,7 @@ export interface Quiz {
   description?: string;
   timePerQuestion?: number; // in seconds, default 30sec
   questions?: Question[];
+  createdAt?: object;
 }
 
 export interface CategorizedQuizzes {

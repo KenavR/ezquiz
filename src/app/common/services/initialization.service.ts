@@ -1,32 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, QuerySnapshot } from '@angular/fire/firestore';
 import { Observable, from, combineLatest } from 'rxjs';
-import { first, flatMap, filter, map } from 'rxjs/operators';
-
-interface RequiredCollections {
-  [name: string]: object;
-}
-
-const requiredCollections: RequiredCollections = {
-  quizzes: {
-    category: 'Gameshows',
-    description: '',
-    imagePath: '',
-    reward: 890,
-    timePerQuestion: 30,
-    title: 'Who wants to be a Millionaire?'
-  },
-  questions: {
-    text: 'Which disease devastated livestock across the UK during 2001?',
-    answer: 'Foot-and-mouth',
-    options: ['Hand-and-foot', 'Foot-in-mouth', 'Hand-to-mouth'],
-    quiz: '1'
-  }
-};
+import { first, flatMap, filter, map, tap } from 'rxjs/operators';
+import { QuizService } from './quiz.service';
+import * as firebase from 'firebase';
+import quizzesData from '../../../data/quizzes';
+import { Quiz } from '@ezquiz/models';
 
 @Injectable()
 export class InitializationService {
-  constructor(private db: AngularFirestore) {}
+  constructor(private db: AngularFirestore, private quizService: QuizService) {}
 
   private doesCollectionExist<T>(name: string): Observable<boolean> {
     return this.db
@@ -38,27 +21,23 @@ export class InitializationService {
       );
   }
 
-  private createCollection<T>(name: string, data: T): Observable<void> {
-    return from(
-      this.db
-        .collection<T>(name)
-        .doc(this.db.createId())
-        .set(data)
-    );
-  }
-
-  private processCollection([name, data]: [string, object]): Observable<void> {
-    return this.doesCollectionExist<object>(name).pipe(
-      filter(exists => !exists),
-      flatMap(_ => this.createCollection<object>(name, data))
-    );
-  }
-
   init(): Observable<void[]> {
-    const collectionCreator$: Observable<void>[] = Object.entries(
-      requiredCollections
-    ).map(this.processCollection.bind(this));
+    function importData(this: InitializationService): Observable<void>[] {
+      const quizzes = (quizzesData as Quiz[]).map(q => {
+        const dbQuiz = { ...q };
+        delete dbQuiz.questions;
+        dbQuiz.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+        return dbQuiz;
+      });
 
-    return combineLatest(...collectionCreator$);
+      const quiz$ = this.doesCollectionExist<object>('quizzes').pipe(
+        filter(exists => !exists),
+        flatMap(_ => this.quizService.saveAll(quizzes))
+      );
+
+      return [quiz$];
+    }
+
+    return combineLatest(...importData.call(this));
   }
 }
