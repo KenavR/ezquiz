@@ -6,8 +6,11 @@ import { QuizService } from './quiz.service';
 import * as firebase from 'firebase';
 import quizzesData from '../../../data/quizzes';
 import { Quiz } from '@ezquiz/models';
+import { EzquizCommonModule } from '../ezquiz-common.module';
 
-@Injectable()
+@Injectable({
+  providedIn: EzquizCommonModule
+})
 export class InitializationService {
   constructor(private db: AngularFirestore, private quizService: QuizService) {}
 

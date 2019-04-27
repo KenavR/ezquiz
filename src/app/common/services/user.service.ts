@@ -3,8 +3,11 @@ import { Observable, of } from 'rxjs';
 import { single, delay } from 'rxjs/operators';
 
 import { User } from '@ezquiz/models';
+import { EzquizCommonModule } from '../ezquiz-common.module';
 
-@Injectable()
+@Injectable({
+  providedIn: EzquizCommonModule
+})
 export class UserService {
   public authenticate(): Observable<boolean> {
     return of(true);
