@@ -7,7 +7,7 @@ import { CategorizedQuizzes, Category } from '@ezquiz/models';
   template: `
     <span *ngIf="loading">loading...</span>
     <ul *ngIf="!loading">
-      <li *ngFor="let cat of (quizzes | keyvalue)">
+      <li *ngFor="let cat of quizzes | keyvalue">
         <div class="title-bar">
           <h3>
             {{ cat.key }}
@@ -15,18 +15,18 @@ import { CategorizedQuizzes, Category } from '@ezquiz/models';
               >0/{{ cat.value.length }}</span
             >
           </h3>
-          <span title="Max Reward">💰 {{ calcMaxRewards(cat.key) }}</span>
+          <span title="Max Reward" class="max-reward"
+            >💰 {{ calcMaxRewards(cat.key) }}</span
+          >
         </div>
 
         <ezq-sidescroller>
-          <ezq-card
-            [image]="quiz.image"
-            [title]="quiz.title"
+          <ezq-quiz-card
+            [quiz]="quiz"
             *ngFor="let quiz of cat.value"
             class="quiz-card"
           >
-            <div class="quiz-credit">💰 {{ quiz.reward }}</div>
-          </ezq-card>
+          </ezq-quiz-card>
         </ezq-sidescroller>
       </li>
     </ul>
@@ -47,9 +47,16 @@ import { CategorizedQuizzes, Category } from '@ezquiz/models';
         margin: 2rem 0 1rem;
       }
 
+      .max-reward {
+        color: white;
+      }
+
       h3 {
         flex: 1;
         margin: 0;
+        color: #2f175e;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        font-weight: 100;
       }
 
       .quiz-card {
@@ -57,22 +64,14 @@ import { CategorizedQuizzes, Category } from '@ezquiz/models';
         margin-right: 1rem;
       }
 
-      .quiz-credit {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        color: rgba(0, 0, 0, 0.7);
-        font-size: 0.8rem;
-      }
-
       .quiz-count {
-        background-color: #0e7d74;
-        color: rgba(255, 255, 255, 0.5);
+        background-color: white;
+        color: #2f175e;
         border-radius: 1rem;
         padding: 0.2rem 0.5rem;
         font-size: 0.7rem;
         font-weight: 100;
-        margin-left: .5rem;
+        margin-left: 0.5rem;
       }
     `
   ]

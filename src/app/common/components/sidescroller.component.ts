@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
     `
       :host {
         display: flex;
-        padding: 0 1rem;
+        padding: 0.5rem 1rem;
         overflow: auto;
       }
     `

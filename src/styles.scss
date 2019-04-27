@@ -16,4 +16,22 @@ ezq-app {
 
 body {
   overflow: hidden;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#559e72+0,2e165e+100 */
+  background: #559e72; /* Old browsers */
+  background: -moz-linear-gradient(
+    -45deg,
+    #559e72 0%,
+    #2e165e 100%
+  ); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    -45deg,
+    #559e72 0%,
+    #2e165e 100%
+  ); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    135deg,
+    #559e72 0%,
+    #2e165e 100%
+  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#559e72', endColorstr='#2e165e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }

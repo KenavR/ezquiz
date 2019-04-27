@@ -1,10 +1,9 @@
-import { Category } from './category';
 import { Question } from './question';
 
 export interface Quiz {
   id?: string;
   title: string;
-  category: Category | string;
+  category: string;
   reward: number;
   imagePath?: string;
   description?: string;

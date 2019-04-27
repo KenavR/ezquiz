@@ -3,7 +3,10 @@ import { Input, Component } from '@angular/core';
 @Component({
   selector: 'ezq-card',
   template: `
-    <div [style.backgroundImage]="'url(' + image + ')'">
+    <div
+      [style.backgroundImage]="'url(' + image + ')'"
+      [style.color]="image ? '#eee' : '#333'"
+    >
       <ng-content></ng-content>
       <span>{{ title }}</span>
     </div>
@@ -13,18 +16,21 @@ import { Input, Component } from '@angular/core';
       div {
         display: flex;
         border-radius: 0.4rem;
-        background-color: goldenrod;
+        background-color: white;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         padding: 1rem;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-        min-width: 7.5rem;
-        min-height: 4.2rem;
+        width: 10rem;
+        height: 5.625rem;
       }
 
       span {
         align-self: flex-end;
-        color: white;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
         font-size: 0.9rem;
+        font-weight: bold;
       }
     `
   ]
