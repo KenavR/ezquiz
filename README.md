@@ -11,7 +11,7 @@ This project is just a small example project to illustrate how I would structure
 
 # Screenshot
 
-![ezquiz](https://raw.githubusercontent.com/KenavR/ezquiz/master/screenshot.png)
+![ezquiz](https://raw.githubusercontent.com/KenavR/ezquiz/master/screenshot.png?token=ABSYYIJBO65IER5HLHSAKGK4Z4L7O)
 
 ## Development server
 
