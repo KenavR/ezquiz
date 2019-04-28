@@ -55,7 +55,7 @@ import { CategorizedQuizzes, Category } from '@ezquiz/models';
         flex: 1;
         margin: 0;
         color: #2f175e;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
         font-weight: 100;
       }
 

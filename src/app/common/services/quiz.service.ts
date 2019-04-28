@@ -26,9 +26,6 @@ export class QuizService {
       this.quizzes$ = this.quizzesCollection.valueChanges();
     }
 
-    this.quizzes$.subscribe(result => {
-      console.log('RESULT: ', result);
-    });
     return this.quizzes$;
   }
 
@@ -51,7 +48,7 @@ export class QuizService {
     return this.quizzes$.pipe(map(categorize));
   }
 
-  public save(quiz: Quiz): Observable<any> {
+  public saveQuiz(quiz: Quiz): Observable<any> {
     return from(this.quizzesCollection.add(quiz)).pipe(
       map((ref: DocumentReference) => ref as any)
     );

@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { LoginPage, LoginFormState } from './login.component';
 import { AuthService } from '@ezquiz/common/services/auth.service';
-import { tap } from 'rxjs/operators';
+import { tap, map, flatMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { EzqUser } from '@ezquiz/models';
+
+import emojis from '../../data/emojis';
+import { UserService } from '@ezquiz/common';
 
 @Component({
   selector: 'ezq-login-container',
@@ -25,7 +29,11 @@ export class LoginContainer implements OnInit {
     page: LoginPage.LOGIN
   };
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private router: Router
+  ) {
     this.redirect = this.redirect.bind(this);
   }
 
@@ -41,18 +49,16 @@ export class LoginContainer implements OnInit {
       }
     }
 
-    console.log('this.router: ', this.router);
     const page = extractPage(this.router.url);
     this.formState = { ...this.formState, ...{ page } };
   }
 
   updateState(update: Partial<LoginFormState>) {
-    console.log('----------------------------------- ', update);
     this.formState = { ...this.formState, ...update };
   }
 
-  private redirect(this: LoginContainer) {
-    this.router.navigateByUrl('/quiz');
+  private redirect(this: LoginContainer, path: string) {
+    this.router.navigateByUrl(path);
   }
 
   login() {
@@ -65,15 +71,14 @@ export class LoginContainer implements OnInit {
       };
     }
 
-    console.log('LOGIN:::: ', this.formState);
     this.authService
       .login(this.formState.email, this.formState.password)
-      .pipe(tap(v => console.log('TAPPPP: ', v)))
-      .subscribe(this.redirect, handleError.bind(this));
+      .subscribe(this.redirect.bind(this, '/quiz'), handleError.bind(this));
   }
 
   signup() {
     function handleError(this: LoginContainer, error: any) {
+      console.error('Error while signing up: ', error);
       this.formState = {
         email: '',
         password: '',
@@ -82,10 +87,24 @@ export class LoginContainer implements OnInit {
       };
     }
 
-    console.log('signup:::: ', this.formState);
+    function getNewUser(credentials: firebase.auth.UserCredential): EzqUser {
+      const email = credentials.user.email;
+      const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+
+      return {
+        username: email.split('@')[0],
+        email,
+        credit: 0,
+        emoji
+      };
+    }
+
     this.authService
       .signup(this.formState.email, this.formState.password)
-      .pipe(tap(v => console.log('TAPPPP: ', v)))
-      .subscribe(this.redirect, handleError.bind(this));
+      .pipe(
+        map(getNewUser),
+        flatMap(this.userService.saveUser)
+      )
+      .subscribe(this.redirect.bind(this, '/settings'), handleError.bind(this));
   }
 }

@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, from } from 'rxjs';
+import { Observable, from, isObservable } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { first, map } from 'rxjs/operators';
+import { first, map, single } from 'rxjs/operators';
 import { EzquizCommonModule } from '../ezquiz-common.module';
+import { User } from 'firebase';
 
 @Injectable({
   providedIn: EzquizCommonModule
 })
 export class AuthService {
-  private;
+  private authState$: Observable<User | null>;
 
   constructor(private fbAuth: AngularFireAuth) {}
 
@@ -16,7 +17,9 @@ export class AuthService {
     email: string,
     password: string
   ): Observable<firebase.auth.UserCredential> {
-    return from(this.fbAuth.auth.signInWithEmailAndPassword(email, password));
+    return from(
+      this.fbAuth.auth.signInWithEmailAndPassword(email, password)
+    ).pipe(single());
   }
 
   signup(
@@ -25,7 +28,11 @@ export class AuthService {
   ): Observable<firebase.auth.UserCredential> {
     return from(
       this.fbAuth.auth.createUserWithEmailAndPassword(email, password)
-    );
+    ).pipe(single());
+  }
+
+  logout() {
+    return from(this.fbAuth.auth.signOut()).pipe(single());
   }
 
   isAuthenticated(): Observable<boolean> {
@@ -33,5 +40,12 @@ export class AuthService {
       first(),
       map(user => !!user)
     );
+  }
+
+  getAuthState(): Observable<User | null> {
+    if (!isObservable(this.authState$)) {
+      this.authState$ = this.fbAuth.authState;
+    }
+    return this.authState$;
   }
 }

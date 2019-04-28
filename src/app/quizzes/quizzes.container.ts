@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { QuizService, CategorizedQuizzes, Quiz } from '@ezquiz/common';
+import { QuizService, CategorizedQuizzes } from '@ezquiz/common';
 import { tap } from 'rxjs/operators';
 
 @Component({
@@ -25,15 +25,13 @@ export class QuizzesContainer implements OnInit {
   quizzes$: Observable<CategorizedQuizzes>;
   loading = false;
 
-  constructor(private quizService: QuizService) {
-    this.toggleLoading = this.toggleLoading.bind(this);
-  }
+  constructor(private quizService: QuizService) {}
 
   ngOnInit(): void {
     this.loading = true;
     this.quizzes$ = this.quizService
       .getCategorizedQuizzes()
-      .pipe(tap(this.toggleLoading));
+      .pipe(tap(this.setLoading.bind(this, false)));
 
     /*.loadQuizzesByCategories([
         { id: 'sdkdfk', name: 'Animals' },
@@ -45,7 +43,7 @@ export class QuizzesContainer implements OnInit {
       ])*/
   }
 
-  private toggleLoading() {
-    this.loading = !this.loading;
+  private setLoading(isLoading: boolean) {
+    this.loading = isLoading;
   }
 }

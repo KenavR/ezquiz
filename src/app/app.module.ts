@@ -14,6 +14,11 @@ import { EzquizCommonModule } from './common';
 import { environment } from 'src/environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import {
+  UserSettingsContainer,
+  UserSettingsComponent,
+  EmojiSelectorComponent
+} from './user';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     MainHeaderComponent,
     MainLayoutComponent,
     QuizzesContainer,
-    QuizzesComponent
+    QuizzesComponent,
+    UserSettingsContainer,
+    UserSettingsComponent,
+    EmojiSelectorComponent
   ],
   imports: [
     BrowserModule,

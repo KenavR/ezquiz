@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { InitializationService } from './common';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'ezq-app',
@@ -14,6 +15,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.initializationService
       .init()
-      .subscribe(res => console.log('subscribed: ', res));
+      .pipe(take(1))
+      .subscribe(_ => console.log('Data has been imported into FB: '));
   }
 }

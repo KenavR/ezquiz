@@ -1,15 +1,20 @@
 import { Component, Input } from '@angular/core';
-import { User } from '@ezquiz/common';
+import { EzqUser } from '@ezquiz/common';
 
 @Component({
   selector: 'ezq-main-header',
   template: `
     <header>
       <div class="username">
-        👿<span>{{ !loading ? user.username : '----' }}</span>
+        <a [routerLink]="['/settings']" routerLinkActive="active">
+          <span class="emoji">{{ !loading ? user.emoji : '⏳' }}</span>
+          <span>{{ !loading ? user.username : '----' }}</span>
+        </a>
       </div>
+
       <div>
-        💰<span>{{ !loading ? user.credit : '----' }}</span>
+        <span class="emoji">💰</span>
+        <span>{{ !loading ? user.credit : '----' }}</span>
       </div>
     </header>
   `,
@@ -29,14 +34,26 @@ import { User } from '@ezquiz/common';
       }
 
       span {
-        margin-left: 0.5rem;
         color: white;
         text-shadow: 0 -1px 1px black;
+      }
+
+      span.emoji {
+        margin-right: 0.5rem;
+      }
+
+      header > *,
+      a {
+        display: flex;
+        align-items: center;
+        height: 100%;
+      }
+      a {
       }
     `
   ]
 })
 export class MainHeaderComponent {
-  @Input() user: User;
+  @Input() user: EzqUser;
   @Input() loading = false;
 }

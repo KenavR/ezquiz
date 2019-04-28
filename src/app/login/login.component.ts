@@ -15,7 +15,7 @@ export interface LoginFormState {
 @Component({
   selector: 'ezq-login',
   template: `
-    <header>LOGO</header>
+    <header><ezq-logo></ezq-logo></header>
 
     <div class="error" *ngIf="state.error">
       <span>ℹ</span>️
@@ -36,6 +36,7 @@ export interface LoginFormState {
             autocomplete="email"
             [value]="state.email"
             (keyup)="update(email.value, 'email')"
+            class="field"
           />
           <input
             #password
@@ -44,6 +45,7 @@ export interface LoginFormState {
             [value]="state.password"
             (keyup)="update(password.value, 'password')"
             type="password"
+            class="field"
           />
         </form>
       </section>
@@ -63,6 +65,9 @@ export interface LoginFormState {
       }
 
       header {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         flex-basis: 15%;
         flex: 1;
       }
@@ -91,7 +96,6 @@ export interface LoginFormState {
         height: 100%;
         flex: 1;
         border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-        text-decoration: none;
         color: rgba(0, 0, 0, 0.3);
         text-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
         font-weight: bold;
@@ -107,22 +111,6 @@ export interface LoginFormState {
         background-color: white;
 
         box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.15);
-      }
-
-      input {
-        border: none;
-        border: 1px solid rgba(0, 0, 0, 0.15);
-        box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
-        border-radius: 0.4rem;
-        padding: 1rem;
-        margin-bottom: 1rem;
-        outline: none;
-        width: 100%;
-        box-sizing: border-box;
-      }
-
-      input:focus {
-        border-color: #2e175e;
       }
 
       .switch {
