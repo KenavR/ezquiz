@@ -35,3 +35,29 @@ body {
   ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#559e72', endColorstr='#2e165e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.field {
+  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+  border-radius: 0.4rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.field:focus {
+  border-color: #2e175e;
+}
