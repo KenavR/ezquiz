@@ -3,15 +3,12 @@ import { CommonModule } from '@angular/common';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 import {
-  UserService,
-  QuizService,
-  InitializationService
-} from '@ezquiz/services';
-import {
   CardComponent,
   SidescrollerComponent,
   PageComponent,
-  QuizCardComponent
+  QuizCardComponent,
+  ModalComponent,
+  LogoComponent
 } from '@ezquiz/components';
 
 @NgModule({
@@ -19,14 +16,18 @@ import {
     CardComponent,
     QuizCardComponent,
     SidescrollerComponent,
-    PageComponent
+    PageComponent,
+    ModalComponent,
+    LogoComponent
   ],
   imports: [CommonModule, AngularFireAuthModule],
   exports: [
     CardComponent,
     QuizCardComponent,
     SidescrollerComponent,
-    PageComponent
+    PageComponent,
+    ModalComponent,
+    LogoComponent
   ]
 })
 export class EzquizCommonModule {}

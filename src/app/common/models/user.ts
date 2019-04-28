@@ -1,8 +1,11 @@
 import { Category } from '@ezquiz/models';
 
-export interface User {
-  id: string;
+export interface EzqUser {
+  email: string;
   username: string;
   credit: number;
-  favoriteCategories: Category[];
+  emoji: string;
+  firstname?: string;
+  lastname?: string;
+  favoriteCategories?: Category[];
 }
